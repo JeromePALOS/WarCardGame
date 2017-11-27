@@ -1,14 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package UI;
 
-/**
- *
- * @author Jerome
- */
+import Model.Player;
+import javax.swing.JLabel;
+
 public class InformationPlayerUI {
     
+    private JLabel hp = new JLabel();
+    
+    public JLabel viewHp(Player player){
+        hp.setText("HP : " + String.valueOf(player.viewHp()));
+        return hp;
+    }
 }
