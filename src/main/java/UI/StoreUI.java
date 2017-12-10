@@ -18,15 +18,26 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
 
-class StoreUI{
+public class StoreUI{
     private JFrame store_frame = new JFrame();
     private JPanel parent;
     private Player player;
+    private PanelCardUI panel;
+    private JPanel panel_info;
+    private InformationPlayerUI info;
+    private Store store = new Store();
     
-    public StoreUI(Player player, JPanel panel){
+    public StoreUI(Player player, JPanel panel, PanelCardUI panel_card, JPanel panel_info, InformationPlayerUI info){
         this.player = player;
         this.parent = panel;
-        
+        this.panel = panel_card;
+        this.panel_info = panel_info;
+        this.info = info;
+    }
+    public void changeStore(){
+        store.changeStore();
+    }
+    public void viewStore(){
         this.store_frame.setSize(900, 350);
         this.store_frame.setTitle("STORE");
         this.store_frame.setContentPane(panelStore());
@@ -49,20 +60,14 @@ class StoreUI{
         
         JPanel panel_store = new JPanel();
         panel_store.setLayout(new BoxLayout(panel_store, BoxLayout.LINE_AXIS));
-        Store store = new Store();
-        store.changeStore();
         
         for(int i = 0; i<6; i++){
-  
-            panel_store.add(panelCard(store, i));
-
-
+            panel_store.add(panelCard(i));
         }
         
         return panel_store;
     }
-    public JPanel panelCard(Store store, int i){
-        try {
+    public JPanel panelCard(int i){
             JPanel panel_card = new JPanel(new BorderLayout());
             panel_card.setBackground(Color.LIGHT_GRAY);
 
@@ -91,25 +96,21 @@ class StoreUI{
                 //buy
                 JButton btn_buy = new JButton("Buy this card");
                 btn_buy.addActionListener(new ActionListener(){
-               //private Player player;
-                    public void actionPerformed(ActionEvent arg0){
-                        
+
+                    public void actionPerformed(ActionEvent e){
+                        buy(i);
                     }        
+
                 });
                 panel_card_info.add(btn_buy, BorderLayout.SOUTH);
                 
             //End card_info
             //img
-            BufferedImage picture = ImageIO.read(new File("Ressources/faible.png"));
-            JLabel pic = new JLabel(new ImageIcon(picture));
+            
+            JLabel pic = new JLabel(new ImageIcon(store.viewCard(i).viewImage()));
             panel_card.add(pic, BorderLayout.CENTER);
             panel_card.add(panel_card_info, BorderLayout.SOUTH); 
             return panel_card;
-            
-        } catch (IOException ex) {
-            Logger.getLogger(GameUI.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
         
         
     }
@@ -127,5 +128,32 @@ class StoreUI{
         });
         panel_menu.add(btn_store);
         return panel_menu;
+    }
+    
+    public void buy(int i){
+        if(player.viewDeckSize()<=8 && player.viewGold()>=store.viewCard(i).viewPrice()){
+            player.removeGold(store.viewCard(i).viewPrice());
+            store.picCard(player, i);
+            player.viewDeck();
+            panel.update();
+            panel_info.updateUI();
+            panel_info.add(info.viewHp(player));
+            panel_info.add(info.viewGold(player));
+        }else{
+            System.out.println("max card deck or gold, ouais ouais msg error pas le time");
+        }
+    }
+    public void buyIA(){
+        changeStore();
+        if(player.viewGold()>=store.viewCard(1).viewPrice()){    
+            player.removeGold(store.viewCard(1).viewPrice());
+            player.addCardBoard(store.viewCard(1));
+            
+            
+            if(player.viewDeckSize()<=1 && player.viewGold()>=store.viewCard(2).viewPrice()){
+                player.removeGold(store.viewCard(2).viewPrice());
+                store.picCard(player, 2);
+            }
+        }
     }
 }

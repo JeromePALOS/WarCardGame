@@ -14,24 +14,22 @@ public class Player {
         this.gold = gold;
         this.hp = hp;
         this.name = name;
-        //test
-        deck.add(new Card("Hammer", 20, 30));
-        board.add(new Card("Bow", 20, 30));
-        board.add(new Card("Bow", 20, 30));
-        board.add(new Card("Bow", 20, 30));
-        board.add(new Card("Bow", 20, 30));
-        board.add(new Card("Bow", 20, 30));
-        board.add(new Card("Bow", 20, 30));
         //deck.get(0).viewName();
     }
     
     public void addCardDeck(Card card){
         this.deck.add(card);
     }
+    public void removeCardDeck(int i){
+        this.deck.remove(i);
+    }
     public void addCardBoard(Card card){
-        
         this.board.add(card);
     }
+    public void removeCardBoard(int i){
+        this.board.remove(i);
+    }
+    
     public void addGold(int gold){
         this.gold += gold;
     }
@@ -58,7 +56,7 @@ public class Player {
         return this.hp;
     }
     public void viewDeck(){
-        for(int i=3; i<deck.size() ;i++){
+        for(int i=0; i<deck.size() ;i++){
             System.out.println(deck.get(i));
         }
     }
@@ -67,5 +65,14 @@ public class Player {
     }
     public int viewDeckSize(){
         return this.deck.size();
+    }
+    public int viewBoardSize(){
+        return this.board.size();
+    }
+    public Card viewCardBoard(int i){
+        return this.board.get(i);
+    }
+    public Card viewCardDeck(int i){
+        return this.deck.get(i);
     }
 }

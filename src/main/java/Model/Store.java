@@ -10,9 +10,9 @@ public class Store {
     
     //AllCard
     private ArrayList<Card> cards= new ArrayList<Card>();
-    private String name[] = {"Weapon","Hammer", "SUPER HAMMER DU FLEAU"}; 
-    private int price[] = {20, 30, 2300}; 
-    private int damage[] = {40, 50, 4000}; 
+    private String name[] = {"sword1","sword2","sword3","sword4","sword5","hammer1","bow"}; 
+    private int price[] = {20, 15, 40, 35, 25, 60, 50}; 
+    private int damage[] = {30, 30, 50, 45, 35, 50, 60}; 
     
     public Store(){
         createCard();
@@ -33,7 +33,10 @@ public class Store {
         return this.store_cards.get(i);
     }
     
-    
+    //add card to player
+    public void picCard(Player player, int i){
+        player.addCardDeck(this.store_cards.get(i));
+    }
     
     
  //All Card   
@@ -53,5 +56,4 @@ public class Store {
             System.out.println(cards.get(i).viewName());
         }
     }
-    
 }
